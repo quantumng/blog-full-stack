@@ -1,0 +1,16 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
