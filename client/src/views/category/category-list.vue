@@ -2,7 +2,7 @@
   <div class="page-list">
     <div class="btn-group">
       <!-- <Button type="primary">批量删除</Button> -->
-      <Button type="primary" @click="() => { this.$router.push({name: 'PageEdit'})}">创建文章</Button>
+      <Button type="primary" @click="() => { this.$router.push({name: 'CategoryEdit'})}">创建分类</Button>
     </div>
     <Table border ref="selection" :columns="columns" :data="data"></Table>
     <Page class="pagination" :total="100" show-sizer />
@@ -20,24 +20,20 @@ export default {
           align: 'center'
         },
         {
-          title: '标题',
-          key: 'title'
+          title: '分类名称',
+          key: 'name'
         },
         {
-          title: '内容',
-          key: 'content'
+          title: '分类别名',
+          key: 'navigation'
         },
         {
-          title: '作者',
-          key: 'author'
+          title: '文章数量',
+          key: 'total'
         },
         {
-          title: '分类',
-          key: 'category'
-        },
-        {
-          title: '评论数',
-          key: 'commentCount'
+          title: '分类备注',
+          key: 'desc'
         },
         {
           title: '创建时间',
@@ -60,11 +56,10 @@ export default {
       ],
       data: [
         {
-          title: '第一篇文章',
-          content: '这是第一篇文章',
-          author: '吴晓权',
-          category: '生活-饮食',
-          commentCount: '365',
+          name: '分类文章',
+          navigation: '/cate',
+          desc: '各种分类',
+          total: 10,
           createAt: '2018-12-31',
           modifyAt: '2019-01-01'
         }
