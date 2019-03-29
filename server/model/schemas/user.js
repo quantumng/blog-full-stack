@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
-const md5 = require('md5')
+const crypto = require("crypto")
+const md5 = crypto.createHash("md5")
 
 const userSchema = new Schema({
   username: {
@@ -18,10 +19,26 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female']
+  },
+  age: {
+    type: Number
+  },
+  role: {
+    type: String,
+    default: 'writer',
+    enum: ['passenger', 'writer', 'admin']
+  },
   desc: String,
   page: [{
     type: ObjectId,
     ref: 'Page'
+  }],
+  comment: [{
+    type: ObjectId,
+    ref: 'Comment'
   }],
   createAt: {
     type: Date,
@@ -42,10 +59,23 @@ userSchema.pre('save', next => {
   next()
 })
 
-userSchema.pre('save', next => {
-  if (!user.isModified('password')) return next()
-  this.password = md5(this.password)
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) return next()
+  this.password = md5.update(this.password).digest("hex");
   next()
 })
+
+userSchema.methods = {
+  comparePassword: (newv, prev) => {
+    return new Promise((resolve, reject) => {
+      newv = md5.update(newv).digest("hex")
+      if (prev === newv) {
+        resolve({ isMatch: true })
+      } else {
+        reject(new Error('密码不对！'))
+      }
+    })
+  }
+}
 
 mongoose.model('User', userSchema)

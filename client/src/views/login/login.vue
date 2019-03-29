@@ -2,7 +2,7 @@
   <div>
     <Form ref="formInline" :model="formInline" :rules="ruleInline">
       <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="Username">
+        <Input type="text" v-model="formInline.username" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
@@ -13,23 +13,24 @@
       </FormItem>
       <FormItem>
         <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
-        <Button type="primary" @click="handleSubmit('formInline')">注册</Button>
-        <Button @click="handleSubmit('formInline')">返回博客</Button>
+        <Button type="primary" @click="() => { this.$router.push({name: 'register'}) }">注册</Button>
+        <Button @click="() => { this.$router.push({name: 'index'}) }">返回博客</Button>
       </FormItem>
     </Form>
   </div>
 </template>
 
 <script>
+import userApi from '@/api/user'
 export default {
   data () {
     return {
       formInline: {
-        user: '',
+        username: '',
         password: ''
       },
       ruleInline: {
-        user: [
+        username: [
           { required: true, message: 'Please fill in the user name', trigger: 'blur' }
         ],
         password: [
@@ -43,11 +44,23 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
+          this.login(this.formInline)
         } else {
           this.$Message.error('Fail!')
         }
       })
+    },
+    async login (params) {
+      let { result } = await userApi.login(params)
+      console.log(result)
+      if (result) {
+        const { url } = this.$route.query
+        if (url) {
+          this.$router.push({name: url})
+        } else {
+          this.$router.push({name: 'index'})
+        }
+      }
     }
   }
 }

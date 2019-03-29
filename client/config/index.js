@@ -11,7 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/admin/category': {
+      '/admin': {
         changeOrigin: true,
         target: 'http://localhost:3000'
       }
