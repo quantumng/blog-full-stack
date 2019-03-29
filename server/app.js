@@ -6,6 +6,12 @@ const index = require('./routes/index')
 const admin = require('./routes/admin')
 const mobile = require('./routes/mobile')
 
+const { connect, initShema } = require('./model')
+;(async () => {
+  await connect()
+  initShema()
+})()
+
 const app = new Koa()
 const router = new Router()
 
@@ -14,8 +20,8 @@ router.use('/mobile', mobile)
 router.use(index)
 
 app
+  .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(bodyParser())
 
 app.listen(3000)

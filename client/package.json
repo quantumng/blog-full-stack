@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "iview": "^3.2.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
     "sass-loader": "^7.1.0",
