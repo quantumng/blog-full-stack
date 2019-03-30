@@ -69,7 +69,7 @@ export default {
           key: 'action',
           render: (h, {row}) => {
             return <div>
-              <a href="javascript:void(0)" class="m-r-10" onClick={() => { this.$router.push({name: 'PageEdit', query: { id: row._id }})}}>编辑</a>
+              <a href="javascript:void(0)" class="m-r-10" onClick={() => { this.$router.push({name: 'PageEdit', query: { id: row._id }}) }}>编辑</a>
               <a href="javascript:void(0)">删除</a>
             </div>
           }
