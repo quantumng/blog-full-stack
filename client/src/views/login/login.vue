@@ -22,6 +22,7 @@
 
 <script>
 import userApi from '@/api/user'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -41,6 +42,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setLoginStatus', 'setUserInfo']),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
@@ -51,15 +53,14 @@ export default {
       })
     },
     async login (params) {
-      let { result } = await userApi.login(params)
-      console.log(result)
-      if (result) {
+      let { data } = await userApi.login(params)
+      console.log(data)
+      if (data.status === 200) {
+        this.setLoginStatus(true)
+        this.setUserInfo(data.result)
         const { url } = this.$route.query
-        if (url) {
-          this.$router.push({name: url})
-        } else {
-          this.$router.push({name: 'index'})
-        }
+        const routerName = url || 'index'
+        this.$router.replace({ name: routerName })
       }
     }
   }

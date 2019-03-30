@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 const crypto = require("crypto")
-const md5 = crypto.createHash("md5")
 
 const userSchema = new Schema({
   username: {
@@ -68,6 +67,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods = {
   comparePassword: (newv, prev) => {
     return new Promise((resolve, reject) => {
+      const md5 = crypto.createHash("md5")
       newv = md5.update(newv).digest("hex")
       if (prev === newv) {
         resolve({ isMatch: true })

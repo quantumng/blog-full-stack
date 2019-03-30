@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import Router from 'vue-router'
+import userApi from '@/api/user'
 import Main from '@/views/main'
 import Login from '../views/login/login.vue'
 import Register from '../views/login/register.vue'
@@ -58,13 +59,20 @@ const routes = [
 const router = new Router({
   routes
 })
-router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
+router.beforeEach(async (to, from, next) => {
   const passRoute = ['login', 'register']
-  if (!passRoute.includes(to.name)) {
-    const isLogin = store.getters.isLogin
-    if (!isLogin) {
+  const isLogin = store.getters.isLogin
+  const authVoid = passRoute.includes(to.name)
+  if (isLogin && authVoid) {
+    next({ name: 'index' })
+    return
+  }
+  if (!isLogin && !authVoid) {
+    try {
+      await userApi.checkLogin()
+      store.dispatch('setLoginStatus', true)
+    } catch (err) {
+      store.dispatch('setLoginStatus', false)
       next({name: 'login', query: { url: from.name }})
       return
     }

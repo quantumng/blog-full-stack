@@ -2,6 +2,21 @@ const Router = require('koa-router')
 const router = new Router()
 const mongoose = require('mongoose')
 
+router.get('/checkLogin', async (ctx, next) => {
+  const username = ctx.cookies.get('username')
+  console.log('cookie', username)
+  if (username) {
+    ctx.body = true
+  } else {
+    ctx.status = 401
+    ctx.body = {
+      status: 401,
+      result: false,
+      message: '登录信息失效，请重新登录'
+    }
+  }
+})
+
 router.post('/register', async (ctx, next) => {
   const registerInfo = ctx.request.body
   const { username, email } = registerInfo
@@ -45,13 +60,14 @@ router.post('/login', async (ctx) => {
       { email: email }
     ]
   }).exec()
-  console.log(user)
+
   if (user) {
     match = await user.comparePassword(password, user.password)
   }
   if (match) {
     const { username, email, role, _id, gender, desc, nickname } = user
     const userInfo = { username, email, role, _id, gender, desc, nickname }
+    ctx.cookies.set('username', username)
     ctx.body = {
       status: 200,
       result: userInfo,

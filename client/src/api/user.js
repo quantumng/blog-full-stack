@@ -2,6 +2,9 @@ import http from '@/lib/http'
 const basePath = '/admin/user'
 
 export default {
+  checkLogin () {
+    return http.get(`${basePath}/checkLogin`)
+  },
   register (params) {
     return http.post(`${basePath}/register`, params)
   },

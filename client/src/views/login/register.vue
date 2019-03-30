@@ -24,7 +24,7 @@
       </FormItem>
       <FormItem>
         <Button type="primary" @click="handleSubmit('formValidate')">注册</Button>
-        <Button @click="pushToBlog" style="margin-left: 8px">返回博客</Button>
+        <Button @click="pushToBlog" style="margin-left: 8px">返回</Button>
       </FormItem>
     </Form>
   </div>
@@ -81,8 +81,8 @@ export default {
         this.$Message.error('注册失败!')
       }
     },
-    pushToBlog (name) {
-      this.$router.push('/')
+    pushToBlog () {
+      this.$router.go(-1)
     }
   }
 }

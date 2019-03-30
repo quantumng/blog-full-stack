@@ -41,26 +41,48 @@ export default {
       }
     }
   },
+  created () {
+    this.init()
+  },
   methods: {
+    init () {
+      const { id } = this.$route.query
+      if (id) {
+        this.getCategoryInfo(id)
+      }
+    },
+    async getCategoryInfo (id) {
+      try {
+        const { data } = await categoryApi.details(id)
+        console.log('result', data.result)
+        this.formValidate = data.result
+      } catch (err) {
+        throw err
+      }
+    },
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           console.log(this.$route.query)
           console.log(this.formValidate)
-          const { id } = this.$route.query
-          if (id) {
-            categoryApi.update(id).then(res => {
-              console.log('update', res)
-            })
-          } else {
-            categoryApi.add(this.formValidate).then(res => {
-              console.log('add', res)
-            })
-          }
+          this.queryData(this.formValidate)
         } else {
           this.$Message.error('Fail!')
         }
       })
+    },
+    async queryData (params) {
+      try {
+        console.log(params)
+        if (params['_id']) {
+          await categoryApi.update(params)
+        } else {
+          await categoryApi.add(params)
+        }
+        this.$router.replace({name: 'CategoryList'})
+      } catch (err) {
+        throw new Error(err)
+      }
     },
     handleReset (name) {
       this.$refs[name].resetFields()
