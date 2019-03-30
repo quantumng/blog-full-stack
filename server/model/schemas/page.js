@@ -17,6 +17,10 @@ const pageSchema = new Schema({
     type: ObjectId,
     ref: 'User'
   },
+  publisher: {
+    type: ObjectId,
+    ref: 'User'
+  },
   content: String,
   isDelete: {
     type: Boolean,

@@ -14,7 +14,10 @@ export default {
   logout (params) {
     return http.post(`${basePath}/logout`, params)
   },
-  updateUserInfo (params) {
+  update (params) {
     return http.post(`${basePath}/update`, params)
+  },
+  list () {
+    return http.get(`${basePath}/list`)
   }
 }

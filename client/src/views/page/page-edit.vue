@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-edit">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="标题" prop="title">
             <Input v-model="formValidate.name" placeholder="请输入标题"></Input>
@@ -17,12 +17,12 @@
             <Option v-for="user in authorList" :key="user.id" value="user.id">{{user.label}}</Option>
           </Select>
         </FormItem>
-        <FormItem label="内容" prop="content">
+        <FormItem label="内容" prop="content" class="content-editor">
           <div ref="editor" style="text-align:left"></div>
         </FormItem>
         <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">发布</Button>
-            <Button @click="handleReset('formValidate')" style="margin-left: 8px">保存</Button>
+            <Button type="primary" @click="handleSubmit('formValidate', 'add')">发布</Button>
+            <Button @click="handleSubmit('formValidate', 'save')" style="margin-left: 8px">保存</Button>
         </FormItem>
     </Form>
   </div>
@@ -30,6 +30,7 @@
 
 <script>
 import E from 'wangeditor'
+import pageApi from '@/api/page'
 export default {
   data () {
     return {
@@ -40,14 +41,8 @@ export default {
         author: '',
         content: ''
       },
-      categoryList: [
-        { label: '前端技术', value: 'fe-tech' },
-        { label: '读书', value: 'read' }
-      ],
-      authorList: [
-        { label: '站长', id: '000' },
-        { label: '吴晓权', id: '00' }
-      ],
+      categoryList: [],
+      authorList: [],
       ruleValidate: {
         title: [
           { required: true, message: '标题不能为空', trigger: 'blur' }
@@ -68,6 +63,9 @@ export default {
       }
     }
   },
+  created () {
+    this.init()
+  },
   mounted () {
     var editor = new E(this.$refs.editor)
     editor.customConfig.onchange = (html) => {
@@ -76,22 +74,48 @@ export default {
     editor.create()
   },
   methods: {
-    handleSubmit (name) {
+    async init () {
+      const { id } = this.$route.query
+      if (id) {
+        this.getPageData(id)
+      }
+    },
+    async getPageData (id) {
+      try {
+        let data = await pageApi.details(id)
+        console.log(data)
+        const { _id, ...pageData } = data
+        this.formValidate = pageData
+      } catch (err) {
+        throw new Error(err)
+      }
+    },
+    handleSubmit (name, methods) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
+          this.queryPageData(this.formValidate, methods)
         } else {
           this.$Message.error('Fail!')
         }
       })
     },
-    handleReset (name) {
-      this.$refs[name].resetFields()
+    async queryPageData (params, methods) {
+      try {
+        if (params.id) {
+          await pageApi.update(params)
+        } else {
+          await pageApi.add(params)
+        }
+        if (methods === 'add') {
+          this.$route.replace({name: 'PageList'})
+        }
+      } catch (err) {
+        throw new Error(err)
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-
 </style>

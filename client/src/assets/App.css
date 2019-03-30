@@ -3,10 +3,9 @@ html, body {
   width: 100%;
 }
 #app {
-  height: 100%;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
 }
 .m-l-10 {
   margin-left: 10px;

@@ -78,6 +78,7 @@ export default {
 .page-list {
   position: relative;
   height: 100%;
+  padding-bottom: 80px;
 }
 .btn-group {
   margin-bottom: 20px;

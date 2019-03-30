@@ -7,9 +7,12 @@ import Login from '../views/login/login.vue'
 import Register from '../views/login/register.vue'
 import PageList from '@/views/page/page-list'
 import PageEdit from '@/views/page/page-edit'
+import UserList from '@/views/user/user-list'
+import UserEdit from '@/views/user/user-edit'
 import PageRecycle from '@/views/page/page-recycle'
 import CategoryList from '@/views/category/category-list'
 import CategoryEdit from '@/views/category/category-edit'
+import CommentList from '@/views/comment/comment-list'
 
 Vue.use(Router)
 const routes = [
@@ -34,6 +37,16 @@ const routes = [
         component: PageRecycle
       },
       {
+        path: 'user',
+        name: 'UserList',
+        component: UserList
+      },
+      {
+        path: 'user/edit',
+        name: 'UserEdit',
+        component: UserEdit
+      },
+      {
         path: 'category',
         name: 'CategoryList',
         component: CategoryList
@@ -42,6 +55,11 @@ const routes = [
         path: 'category/edit',
         name: 'CategoryEdit',
         component: CategoryEdit
+      },
+      {
+        path: 'comment/list',
+        name: 'CommentList',
+        component: CommentList
       }
     ]
   },

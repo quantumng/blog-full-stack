@@ -82,4 +82,26 @@ router.post('/login', async (ctx) => {
     }
   }
 })
+
+router.post('/logout', async (ctx) => {
+  const { username } = ctx.request.body
+  // const User = mongoose.model('User')
+  await ctx.cookies.set('username', null)
+  ctx.body = {
+    status: 200,
+    result: true,
+    message: '退出成功'
+  }
+})
+
+router.get('/list', async (ctx) => {
+  const User = mongoose.model('User')
+  const data = await User.find({}).select({ password: 0 })
+  ctx.body = {
+    status: 200,
+    result: data,
+    message: 'ok'
+  }
+})
+
 module.exports = router.routes()
