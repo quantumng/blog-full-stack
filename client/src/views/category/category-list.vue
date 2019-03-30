@@ -73,8 +73,8 @@ export default {
   },
   methods: {
     async getList () {
-      let list = await categoryApi.list()
-      this.categoryList = list.data
+      let { data } = await categoryApi.list()
+      this.categoryList = data.result
     },
     async deleteCategory (row) {
       console.log('delete', row)

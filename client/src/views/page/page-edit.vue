@@ -2,19 +2,19 @@
   <div class="page-edit">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="标题" prop="title">
-            <Input v-model="formValidate.name" placeholder="请输入标题"></Input>
+            <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
         </FormItem>
-        <FormItem label="别名" prop="navigation">
-            <Input v-model="formValidate.navigation" placeholder="请输入别名"></Input>
+        <FormItem label="别名" prop="alias">
+            <Input v-model="formValidate.alias" placeholder="请输入别名"></Input>
         </FormItem>
         <FormItem label="分类" prop="category">
-          <Select v-model="formValidate.city" placeholder="请选择">
-            <Option v-for="item in categoryList" :key="item.value" value="item.value">{{item.label}}</Option>
+          <Select transfer v-model="formValidate.category" placeholder="请选择">
+            <Option v-for="item in categoryList" :key="item._id" :value="item._id">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem label="作者" prop="author">
-          <Select v-model="formValidate.city" placeholder="请选择">
-            <Option v-for="user in authorList" :key="user.id" value="user.id">{{user.label}}</Option>
+          <Select transfer v-model="formValidate.author" placeholder="请选择">
+            <Option v-for="user in authorList" :key="user._id" :value="user._id">{{user.nickname || user.username}}</Option>
           </Select>
         </FormItem>
         <FormItem label="内容" prop="content" class="content-editor">
@@ -31,12 +31,14 @@
 <script>
 import E from 'wangeditor'
 import pageApi from '@/api/page'
+import categoryApi from '@/api/category'
+import userApi from '@/api/user'
 export default {
   data () {
     return {
       formValidate: {
         title: '',
-        navigation: '',
+        alias: '',
         category: '',
         author: '',
         content: ''
@@ -55,10 +57,6 @@ export default {
         ],
         author: [
           { required: true, message: '请选择作者', trigger: 'change' }
-        ],
-        content: [
-          { required: true, message: '内容不能为空', trigger: 'blur' },
-          { type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur' }
         ]
       }
     }
@@ -69,23 +67,35 @@ export default {
   mounted () {
     var editor = new E(this.$refs.editor)
     editor.customConfig.onchange = (html) => {
-      this.content = html
+      this.formValidate.content = html
     }
     editor.create()
+    this.editor = editor
   },
   methods: {
     async init () {
-      const { id } = this.$route.query
-      if (id) {
-        this.getPageData(id)
+      try {
+        let category = await categoryApi.list()
+        let user = await userApi.list()
+        this.categoryList = category.data.result
+        this.authorList = user.data.result
+        const { id } = this.$route.query
+        if (id) {
+          this.getPageData(id)
+        }
+      } catch (err) {
+        throw new Error(err)
       }
     },
     async getPageData (id) {
       try {
-        let data = await pageApi.details(id)
+        let { data } = await pageApi.details(id)
         console.log(data)
-        const { _id, ...pageData } = data
-        this.formValidate = pageData
+        const { result: { _id, ...pageData } } = data
+        this.formValidate = { id: _id, ...pageData }
+        this.$nextTick(() => {
+          this.editor.txt.html(this.formValidate.content)
+        })
       } catch (err) {
         throw new Error(err)
       }
@@ -104,10 +114,12 @@ export default {
         if (params.id) {
           await pageApi.update(params)
         } else {
-          await pageApi.add(params)
+          const { data } = await pageApi.add(params)
+          const id = data.result
+          this.$router.replace({ name: 'PageEdit', query: { id } })
         }
         if (methods === 'add') {
-          this.$route.replace({name: 'PageList'})
+          this.$router.push({name: 'PageList'})
         }
       } catch (err) {
         throw new Error(err)

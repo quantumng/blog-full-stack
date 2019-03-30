@@ -29,6 +29,7 @@ commentSchema.pre('save', next => {
   } else {
     this.updateAt = Date.now()
   }
+  next()
 })
 
 mongoose.model('Comment', commentSchema)

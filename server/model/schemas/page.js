@@ -21,6 +21,10 @@ const pageSchema = new Schema({
     type: ObjectId,
     ref: 'User'
   },
+  comment: [{
+    type: ObjectId,
+    ref: 'Comment'
+  }],
   content: String,
   isDelete: {
     type: Boolean,
@@ -42,6 +46,7 @@ pageSchema.pre('save', next => {
   } else {
     this.updateAt = Date.now()
   }
+  next()
 })
 
 mongoose.model('Page', pageSchema)

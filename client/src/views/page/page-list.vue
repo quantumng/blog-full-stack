@@ -4,12 +4,14 @@
       <!-- <Button type="primary">批量删除</Button> -->
       <Button type="primary" @click="() => { this.$router.push({name: 'PageEdit'})}">创建文章</Button>
     </div>
-    <Table border ref="selection" :columns="columns" :data="data"></Table>
+    <Table border ref="selection" :columns="columns" :data="pageData"></Table>
     <Page class="pagination" :total="100" show-sizer />
   </div>
 </template>
 
 <script>
+import pageApi from '@/api/page'
+import filters from '@/lib/filters'
 export default {
   data () {
     return {
@@ -29,46 +31,60 @@ export default {
         },
         {
           title: '作者',
-          key: 'author'
+          key: 'author',
+          render: (h, {row}) => {
+            return <span>{row.author.nickname || row.author.username}</span>
+          }
         },
         {
           title: '分类',
-          key: 'category'
+          key: 'category',
+          render: (h, {row}) => {
+            return <span>{row.category.name}</span>
+          }
         },
         {
           title: '评论数',
-          key: 'commentCount'
+          key: 'commentCount',
+          render: (h, {row}) => {
+            return <span>{row.comment.length}</span>
+          }
         },
         {
           title: '创建时间',
-          key: 'createAt'
+          key: 'createAt',
+          render: (h, {row}) => {
+            return <span>{ filters.formatTime(row.createAt) || '-' }</span>
+          }
         },
         {
           title: '修改时间',
-          key: 'modifyAt'
+          key: 'updateAt',
+          render: (h, {row}) => {
+            return <span>{ filters.formatTime(row.updateAt) || '-' }</span>
+          }
         },
         {
           title: '操作',
           key: 'action',
           render: (h, {row}) => {
             return <div>
-              <a href="javascript:void(0)" class="m-r-10">编辑</a>
+              <a href="javascript:void(0)" class="m-r-10" onClick={() => { this.$router.push({name: 'PageEdit', query: { id: row._id }})}}>编辑</a>
               <a href="javascript:void(0)">删除</a>
             </div>
           }
         }
       ],
-      data: [
-        {
-          title: '第一篇文章',
-          content: '这是第一篇文章',
-          author: '吴晓权',
-          category: '生活-饮食',
-          commentCount: '365',
-          createAt: '2018-12-31',
-          modifyAt: '2019-01-01'
-        }
-      ]
+      pageData: []
+    }
+  },
+  created () {
+    this.init()
+  },
+  methods: {
+    async init () {
+      let { data } = await pageApi.list()
+      this.pageData = data.result
     }
   }
 }

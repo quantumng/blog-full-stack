@@ -33,6 +33,7 @@ categorySchema.pre('save', next => {
   } else {
     this.updateAt = Date.now()
   }
+  next()
 })
 
 mongoose.model('Category', categorySchema)
