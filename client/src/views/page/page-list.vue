@@ -70,7 +70,7 @@ export default {
           render: (h, {row}) => {
             return <div>
               <a href="javascript:void(0)" class="m-r-10" onClick={() => { this.$router.push({name: 'PageEdit', query: { id: row._id }}) }}>编辑</a>
-              <a href="javascript:void(0)">删除</a>
+              <a href="javascript:void(0)" onClick={ () => { this.handleDeletePage(row) } }>作废</a>
             </div>
           }
         }
@@ -83,8 +83,16 @@ export default {
   },
   methods: {
     async init () {
-      let { data } = await pageApi.list()
+      let { data } = await pageApi.list(false)
       this.pageData = data.result
+    },
+    async handleDeletePage (data) {
+      try {
+        await pageApi.delete(data._id)
+        await this.init()
+      } catch (err) {
+        throw new Error(err)
+      }
     }
   }
 }

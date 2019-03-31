@@ -4,18 +4,18 @@
         <FormItem label="标题" prop="title">
             <Input v-model="formValidate.title" placeholder="请输入标题"></Input>
         </FormItem>
-        <FormItem label="别名" prop="alias">
-            <Input v-model="formValidate.alias" placeholder="请输入别名"></Input>
-        </FormItem>
         <FormItem label="分类" prop="category">
           <Select transfer v-model="formValidate.category" placeholder="请选择">
             <Option v-for="item in categoryList" :key="item._id" :value="item._id">{{item.name}}</Option>
           </Select>
         </FormItem>
-        <FormItem label="作者" prop="author">
+        <FormItem style="z-index:99999;" label="作者" prop="author">
           <Select transfer v-model="formValidate.author" placeholder="请选择">
             <Option v-for="user in authorList" :key="user._id" :value="user._id">{{user.nickname || user.username}}</Option>
           </Select>
+        </FormItem>
+        <FormItem label="别名" prop="alias">
+          <Input v-model="formValidate.alias" placeholder="请输入别名"></Input>
         </FormItem>
         <FormItem label="内容" prop="content" class="content-editor">
           <div ref="editor" style="text-align:left"></div>

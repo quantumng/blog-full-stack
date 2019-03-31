@@ -21,7 +21,7 @@ const mobile = require('./routes/mobile')
 const { connect, initShema } = require('./model')
 ;(async () => {
   await connect()
-  initShema()
+  await initShema()
 })()
 
 const app = new Koa()

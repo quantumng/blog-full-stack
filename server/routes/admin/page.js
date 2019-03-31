@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 
 router.get('/list', async(ctx) => {
   try {
+    const { isDelete } = ctx.request.query
     const Page = mongoose.model('Page')
-    const pageData = await Page.find({}).populate('author').populate('category').populate('comment')
-    console.log('pageData', pageData)
+    const pageData = await Page.find({isDelete}).populate('author').populate('category').populate('comment')
     ctx.body = {
       status: 200,
       result: pageData,
@@ -24,12 +24,12 @@ router.get('/list', async(ctx) => {
 })
 
 router.get('/', async(ctx) => {
+  console.log('666666')
   try {
     const { id } = ctx.request.query
     console.log(id)
     const Page = mongoose.model('Page')
     const pageData = await Page.findOne({_id: id})
-    console.log('pageData', pageData)
     ctx.body = {
       status: 200,
       result: pageData,
@@ -86,6 +86,33 @@ router.post('/update', async(ctx) => {
       status: 500,
       result: false,
       message: '保存失败'
+    }
+  }
+})
+
+router.post('/delete', async (ctx, next) => {
+  try {
+    const { id } = ctx.request.query
+    const page = mongoose.model('Page')
+    let data = await page.findById(id)
+    console.log('deletedata', data)
+    if (data.isDelete) {
+      await page.findByIdAndDelete(id)
+    } else {
+      await page.findByIdAndUpdate(id, { isDelete: true })
+    }
+    ctx.body = {
+      status: 200,
+      result: true,
+      message: 'ok'
+    }
+  } catch (err) {
+    console.log(err)
+    ctx.status = 500
+    ctx.body = {
+      status: 500,
+      result: false,
+      message: '删除失败'
     }
   }
 })
