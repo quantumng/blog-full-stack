@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/admin': {
         changeOrigin: true,
-        target: 'http://localhost:3000'
+        target: 'http://localhost:5500'
       }
     },
 

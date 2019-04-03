@@ -17,6 +17,9 @@
         <FormItem label="别名" prop="alias">
           <Input v-model="formValidate.alias" placeholder="请输入别名"></Input>
         </FormItem>
+        <FormItem label="简述" prop="desc">
+          <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        </FormItem>
         <FormItem label="内容" prop="content" class="content-editor">
           <div ref="editor" style="text-align:left"></div>
         </FormItem>
@@ -41,6 +44,7 @@ export default {
         alias: '',
         category: '',
         author: '',
+        desc: '',
         content: ''
       },
       categoryList: [],

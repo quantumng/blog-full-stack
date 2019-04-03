@@ -2,11 +2,23 @@ const Router = require('koa-router')
 const router = new Router()
 const mongoose = require('mongoose')
 
-router.get('/list', async(ctx) => {
+router.post('/list', async(ctx) => {
   try {
-    const { isDelete } = ctx.request.query
+    let currentPage = 0
+    const { id, page } = ctx.request.body
+    console.log(ctx.request.body)
     const Page = mongoose.model('Page')
-    const pageData = await Page.find({isDelete}).populate('author').populate('category').populate('comment')
+    let pageData = []
+    if (id) {
+      pageData = await Page.find({isDelete: false, category: id}).populate('author').populate('category').populate('comment')
+      // console.log('idpage', pageData)
+    } else {
+      if (page) currentPage = page
+      const skipCount = Number(currentPage) * 5
+      console.log(skipCount)
+      pageData = await Page.find({isDelete: false}).skip(skipCount).limit(5).populate('author').populate('category').populate('comment')
+      console.log('nopage', pageData)
+    }
     ctx.body = {
       status: 200,
       result: pageData,
@@ -24,10 +36,9 @@ router.get('/list', async(ctx) => {
 })
 
 router.get('/', async(ctx) => {
-  console.log('666666')
   try {
     const { id } = ctx.request.query
-    console.log(id)
+    // console.log(id)
     const Page = mongoose.model('Page')
     const pageData = await Page.findOne({_id: id})
     ctx.body = {

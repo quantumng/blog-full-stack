@@ -24,7 +24,6 @@ router.get('/list', async(ctx) => {
 })
 
 router.get('/', async(ctx) => {
-  console.log('666666')
   try {
     const { id } = ctx.request.query
     console.log(id)
@@ -51,7 +50,6 @@ router.post('/add', async (ctx, next) => {
   try {
     const pageData = ctx.request.body
     const data = await Page.insertMany(pageData)
-    console.log('pagedata', data)
     ctx.body = {
       status: 200,
       result: data[0]['_id'],

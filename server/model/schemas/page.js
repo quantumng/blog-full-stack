@@ -26,6 +26,7 @@ const pageSchema = new Schema({
     ref: 'Comment'
   }],
   content: String,
+  desc: String,
   isDelete: {
     type: Boolean,
     default: false

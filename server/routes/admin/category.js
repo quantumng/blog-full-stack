@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 router.get('/list', async(ctx) => {
   const Category = mongoose.model('Category')
   let category = await Category.find()
-  console.log(category)
+  // console.log(category)
   ctx.body = {
     status: 200,
     result: category,
@@ -35,7 +35,7 @@ router.post('/update', async (ctx) => {
   const Category = mongoose.model('Category')
   try {
     const { _id, ...data } = ctx.request.body
-    console.log(data)
+    // console.log(data)
     await Category.findByIdAndUpdate(_id, data)
     ctx.body = {
       status: 200,

@@ -26,8 +26,8 @@ export default {
           key: 'title'
         },
         {
-          title: '内容',
-          key: 'content'
+          title: '简述',
+          key: 'desc'
         },
         {
           title: '作者',
