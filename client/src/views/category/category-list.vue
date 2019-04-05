@@ -5,7 +5,7 @@
       <Button type="primary" @click="() => { this.$router.push({name: 'CategoryEdit'})}">创建分类</Button>
     </div>
     <Table class="list-table" border ref="selection" :columns="columns" :data="categoryList"></Table>
-    <Page class="pagination" :total="100" show-sizer />
+    <!-- <Page class="pagination" :total="100" show-sizer /> -->
   </div>
 </template>
 

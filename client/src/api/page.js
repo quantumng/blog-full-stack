@@ -2,8 +2,8 @@ import http from '@/lib/http'
 const basePath = '/admin/page'
 
 export default {
-  list (isDelete) {
-    return http.get(`${basePath}/list?isDelete=${isDelete}`)
+  list (params) {
+    return http.post(`${basePath}/list`, params)
   },
   details (id) {
     return http.get(`${basePath}?id=${id}`)

@@ -1,11 +1,19 @@
 <template>
   <div class="page-list">
-    <div class="btn-group">
-      <!-- <Button type="primary">批量删除</Button> -->
-      <!-- <Button type="primary" @click="() => { this.$router.push({name: 'PageEdit'})}">创建文章</Button> -->
-    </div>
+    <!-- <div class="btn-group">
+      <Button type="primary">批量删除</Button>
+      <Button type="primary" @click="() => { this.$router.push({name: 'PageEdit'})}">创建文章</Button>
+    </div> -->
     <Table border ref="selection" :columns="columns" :data="pageData"></Table>
-    <Page class="pagination" :total="100" show-sizer />
+    <Page class="pagination"
+          v-if="showPagination"
+          :page-size-opts="pageSizeOpts"
+          :total="totalPage"
+          :page-size.sync="params.size"
+          :current.sync="params.page"
+          @on-change="handlePageChange"
+          @on-page-size-change="handlePageSizeChange"
+          show-sizer />
   </div>
 </template>
 
@@ -26,8 +34,8 @@ export default {
           key: 'title'
         },
         {
-          title: '内容',
-          key: 'content'
+          title: '简述',
+          key: 'desc'
         },
         {
           title: '作者',
@@ -75,15 +83,28 @@ export default {
           }
         }
       ],
+      totalPage: 0,
+      pageSizeOpts: [5, 10, 20, 40],
+      params: {
+        isDelete: true,
+        page: 1,
+        size: 5
+      },
       pageData: []
     }
   },
   created () {
     this.init()
   },
+  computed: {
+    showPagination () {
+      return this.totalPage > this.params.size
+    }
+  },
   methods: {
     async init () {
-      let { data } = await pageApi.list(true)
+      let { data } = await pageApi.list(this.params)
+      this.totalPage = data.total
       this.pageData = data.result
     },
     async handleDeletePage (data) {
@@ -102,6 +123,14 @@ export default {
       } catch (err) {
         throw new Error(err)
       }
+    },
+    handlePageChange () {
+      this.init()
+    },
+    handlePageSizeChange (size) {
+      this.params.page = 1
+      this.params.size = size
+      this.init()
     }
   }
 }

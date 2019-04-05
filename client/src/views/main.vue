@@ -2,8 +2,8 @@
     <div class="layout">
         <Layout>
             <Header>
-                <Menu mode="horizontal" theme="dark" active-name="setting">
-                  <div class="layout-logo">QBlog</div>
+                <Menu mode="horizontal" theme="dark" active-name="">
+                  <div class="layout-logo"><router-link to="/">QBlog</router-link></div>
                   <div class="layout-nav">
                     <Dropdown class="" transfer style="margin-left: 20px" @on-click="handleDropClick">
                       <a href="javascript:void(0)" style="color:#fff;">
@@ -20,7 +20,7 @@
             </Header>
             <Layout class="main-container">
                 <Sider hide-trigger :style="{background: '#fff'}">
-                    <Menu active-name="activeName" theme="light" width="auto" :open-names="['page']" @on-select="handleSelectMenu">
+                    <Menu :active-name="activeName" theme="light" width="auto" :open-names="['page']" @on-select="handleSelectMenu">
                         <Submenu name="page">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>
@@ -52,19 +52,20 @@
                             </template>
                             <MenuItem name="UserList">用户列表</MenuItem>
                             <MenuItem name="UserEdit">个人设置</MenuItem>
+                            <MenuItem name="UserPassword">修改密码</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px'}">
-                    <Breadcrumb :style="{margin: '24px 0'}">
+                    <!-- <Breadcrumb :style="{margin: '24px 0'}">
                         <BreadcrumbItem>Home</BreadcrumbItem>
                         <BreadcrumbItem>Components</BreadcrumbItem>
                         <BreadcrumbItem>Layout</BreadcrumbItem>
-                    </Breadcrumb>
-                    <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
+                    </Breadcrumb> -->
+                    <Content :style="{margin: '24px', padding: '24px', minHeight: '280px', background: '#fff'}">
                         <router-view></router-view>
                     </Content>
-                    <Footer class="layout-footer-center">2018-2019 &copy; WuXiaoQuan</Footer>
+                    <Footer class="layout-footer-center">Copyright&copy;2018-2019 吴晓权 版权所有</Footer>
                 </Layout>
             </Layout>
         </Layout>
@@ -78,11 +79,16 @@ export default {
   components: {},
   data () {
     return {
-      activeName: 'page'
     }
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo']),
+    activeName () {
+      return this.$route.name || 'PageList'
+    }
+  },
+  mounted () {
+    console.log(this.$route)
   },
   methods: {
     ...mapActions(['setLoginStatus', 'setUserInfo']),
@@ -119,16 +125,18 @@ export default {
     border-radius: 4px;
     overflow: hidden;
 }
-.layout-logo{
+.layout-logo {
     height: 30px;
     line-height: 30px;
-    color: #fff;
     font-size: 30px;
     float: left;
     position: relative;
     top: 15px;
     left: 20px;
 }
+ .layout-logo a {
+   color: #fff;
+ }
 .layout-nav{
     width: 100px;
     margin: 0 auto;

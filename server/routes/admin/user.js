@@ -1,6 +1,7 @@
 const Router = require('koa-router')
 const router = new Router()
 const mongoose = require('mongoose')
+const crypto = require('crypto')
 
 router.get('/checkLogin', async (ctx, next) => {
   const username = ctx.cookies.get('username')
@@ -101,6 +102,85 @@ router.get('/list', async (ctx) => {
     status: 200,
     result: data,
     message: 'ok'
+  }
+})
+
+router.get('/', async (ctx, next) => {
+  try {
+    const { username } = ctx.request.query
+    console.log('username', username)
+    const User = mongoose.model('User')
+    const data = await User.findOne({username}).select({ password: 0 })
+    ctx.body = {
+      status: 200,
+      result: data,
+      message: 'ok'
+    }
+  } catch (err) {
+    console.log(err)
+    ctx.status = 500
+    ctx.body = {
+      status: 500,
+      result: false,
+      message: '获取用户数据失败'
+    }
+  }
+})
+
+router.post('/update', async (ctx, next) => {
+  try {
+    const { id, username, ...data } = ctx.request.body
+    const User = mongoose.model('User')
+    await User.findOneAndUpdate({'username': username, '_id': id}, data)
+    ctx.body = {
+      status: 200,
+      result: true,
+      message: 'ok'
+    }
+  } catch (err) {
+    console.log(err)
+    ctx.body = {
+      status: 500,
+      result: false,
+      message: '修改用户数据失败'
+    }
+  }
+})
+
+router.post('/updatePassword', async (ctx, next) => {
+  try {
+    let match = false
+    let { username, oldPassword, newPassword } = ctx.request.body
+    const User = mongoose.model('User')
+    const user = await User.findOne({ username: username }).exec()
+    if (user) {
+      match = await user.comparePassword(oldPassword, user.password)
+    }
+    if (match) {
+      const md5 = crypto.createHash('md5')
+      password = md5.update(newPassword).digest('hex')
+      await User.findOneAndUpdate({username: username}, {password})
+      ctx.body = {
+        status: 200,
+        result: true,
+        message: '密码修改成功'
+      }
+    } else {
+      ctx.status = 500
+      ctx.body = {
+        status: 500,
+        result: false,
+        message: '原始密码错误'
+      }
+    }
+  } catch (err) {
+    console.log(err)
+    ctx.status = 500
+    ctx.body = {
+      status: 500,
+      result: false,
+      message: '密码修改失败'
+    }
   }
 })
 

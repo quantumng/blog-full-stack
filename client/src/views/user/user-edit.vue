@@ -1,11 +1,11 @@
 <template>
   <div>
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="用户名" prop="username">
-        <Input v-model="formValidate.username" placeholder="请输入用户名"></Input>
+      <FormItem label="头像" prop="avatar">
+        <div>待开通</div>
       </FormItem>
-      <FormItem label="密码" prop="password">
-        <Input type="password" v-model="formValidate.password" placeholder="请输入密码"></Input>
+      <FormItem label="用户名" prop="username">
+        <Input disabled v-model="formValidate.username" placeholder="请输入用户名"></Input>
       </FormItem>
       <FormItem label="昵称" prop="nickname">
         <Input v-model="formValidate.nickname" placeholder="请输入昵称"></Input>
@@ -31,12 +31,14 @@
 
 <script>
 import userApi from '@/api/user'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
       formValidate: {
+        id: '',
+        avatar: '',
         username: '',
-        password: '',
         nickname: '',
         email: '',
         gender: 'male',
@@ -46,23 +48,40 @@ export default {
         username: [
           { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
-        password: [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
-        ],
         email: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' }
         ]
       }
     }
   },
-  mounted () {
+  created () {
+    this.getUserInfo()
+  },
+  computed: {
+    ...mapGetters(['userInfo'])
   },
   methods: {
+    ...mapActions(['setUserInfo']),
+    async getUserInfo () {
+      let { data } = await userApi.detail(this.userInfo.username)
+      console.log('data', data)
+      const { _id, avatar, username, nickname, email, gender, desc } = data.result
+      this.formValidate = {
+        id: _id,
+        avatar,
+        username,
+        nickname,
+        email,
+        gender,
+        desc
+      }
+      this.setUserInfo(this.formValidate)
+    },
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           try {
-            this.register(this.formValidate)
+            this.updateInfo(this.formValidate)
           } catch (err) {
             throw err
           }
@@ -71,17 +90,14 @@ export default {
         }
       })
     },
-    async register (params) {
-      let { data } = await userApi.register(params)
-      if (data) {
-        this.$Message.success('注册成功！')
-        this.$router.push({name: 'login'})
+    async updateInfo (params) {
+      let { data } = await userApi.update(params)
+      if (data.result) {
+        this.$Message.success('修改成功！')
+        this.setUserInfo(this.formValidate)
       } else {
-        this.$Message.error('注册失败!')
+        this.$Message.error('修改失败!')
       }
-    },
-    pushToBlog () {
-      this.$router.go(-1)
     }
   }
 }

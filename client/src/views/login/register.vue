@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+  <div class="admin-register">
+    <h2 class="register-form-title">注册用户</h2>
+    <Form class="register-form" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
       <FormItem label="用户名" prop="username">
         <Input v-model="formValidate.username" placeholder="请输入用户名"></Input>
       </FormItem>
@@ -89,5 +90,16 @@ export default {
 </script>
 
 <style scoped>
-
+.register-form-title {
+  text-align: center;
+  margin: 100px 0 20px 0;
+}
+.register-form {
+  border: 1px solid rgba(0, 0, 0, .1);
+  border-radius: 8px;
+  padding: 30px;
+  width: 450px;
+  margin: 0 auto;
+  text-align: center;
+}
 </style>

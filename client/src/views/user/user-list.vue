@@ -4,7 +4,7 @@
       <!-- <Button type="primary">批量删除</Button> -->
     </div>
     <Table border ref="selection" :columns="columns" :data="userData"></Table>
-    <Page class="pagination" :total="100" show-sizer />
+    <!-- <Page class="pagination" :total="100" show-sizer /> -->
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
           key: 'role',
           render: (h, {row}) => {
             return <div>
-              <i-select value={row.role} style={'width:80px'}>
+              <i-select value={row.role} style={'width:80px'} on-on-change={(role) => { this.handleChangeRole(role) }} >
                 <i-option value="admin">管理员</i-option>
                 <i-option value="writer">作者</i-option>
                 <i-option value="passenger">路人</i-option>
@@ -99,6 +99,9 @@ export default {
       } catch (err) {
         throw new Error(err)
       }
+    },
+    handleChangeRole (role) {
+      console.log('role', role)
     }
   }
 }

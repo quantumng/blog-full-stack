@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <Form ref="formInline" :model="formInline" :rules="ruleInline">
-      <FormItem prop="user">
+  <div class="admin-login">
+    <h2 class="login-form-title">degebug.com 博客管理系统</h2>
+    <Form class="login-form" ref="formInline" :model="formInline" :rules="ruleInline">
+      <FormItem prop="username">
         <Input type="text" v-model="formInline.username" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
@@ -12,9 +13,9 @@
         </Input>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
-        <Button type="primary" @click="() => { this.$router.push({name: 'register'}) }">注册</Button>
-        <Button @click="() => { this.$router.push({name: 'index'}) }">返回博客</Button>
+        <Button class="form-btn" type="primary" @click="handleSubmit('formInline')">登录</Button>
+        <Button class="form-btn" type="primary" @click="() => { this.$router.push({name: 'register'}) }">注册</Button>
+        <Button class="form-btn" @click="() => { this.goToIndex() }">返回博客</Button>
       </FormItem>
     </Form>
   </div>
@@ -62,11 +63,28 @@ export default {
         const routerName = url || 'index'
         this.$router.replace({ name: routerName })
       }
+    },
+    goToIndex () {
+      window.open('//www.degebug.com/', '_blank')
     }
   }
 }
 </script>
 
 <style scoped>
-
+.login-form-title {
+  text-align: center;
+  margin: 100px 0 20px 0;
+}
+.login-form {
+  border: 1px solid rgba(0, 0, 0, .1);
+  border-radius: 8px;
+  padding: 30px;
+  width: 450px;
+  margin: 0 auto;
+  text-align: center;
+}
+.form-btn {
+  margin: 0 8px;
+}
 </style>

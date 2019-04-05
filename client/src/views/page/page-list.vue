@@ -5,7 +5,15 @@
       <Button type="primary" @click="() => { this.$router.push({name: 'PageEdit'})}">创建文章</Button>
     </div>
     <Table border ref="selection" :columns="columns" :data="pageData"></Table>
-    <Page class="pagination" :total="100" show-sizer />
+    <Page class="pagination"
+    v-if="showPagination"
+    :page-size-opts="pageSizeOpts"
+    :total="totalPage"
+    :page-size.sync="params.size"
+    :current.sync="params.page"
+    @on-change="handlePageChange"
+    @on-page-size-change="handlePageSizeChange"
+    show-sizer />
   </div>
 </template>
 
@@ -17,11 +25,6 @@ export default {
     return {
       columns: [
         {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
-        {
           title: '标题',
           key: 'title'
         },
@@ -32,12 +35,14 @@ export default {
         {
           title: '作者',
           key: 'author',
+          width: 80,
           render: (h, {row}) => {
             return <span>{row.author.nickname || row.author.username}</span>
           }
         },
         {
           title: '分类',
+          width: 100,
           key: 'category',
           render: (h, {row}) => {
             return <span>{row.category.name}</span>
@@ -46,6 +51,7 @@ export default {
         {
           title: '评论数',
           key: 'commentCount',
+          width: 80,
           render: (h, {row}) => {
             return <span>{row.comment.length}</span>
           }
@@ -67,6 +73,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          width: 120,
           render: (h, {row}) => {
             return <div>
               <a href="javascript:void(0)" class="m-r-10" onClick={() => { this.$router.push({name: 'PageEdit', query: { id: row._id }}) }}>编辑</a>
@@ -75,7 +82,19 @@ export default {
           }
         }
       ],
+      totalPage: 0,
+      pageSizeOpts: [5, 10, 20, 40],
+      params: {
+        isDelete: false,
+        page: 1,
+        size: 5
+      },
       pageData: []
+    }
+  },
+  computed: {
+    showPagination () {
+      return this.totalPage > this.params.size
     }
   },
   created () {
@@ -83,7 +102,8 @@ export default {
   },
   methods: {
     async init () {
-      let { data } = await pageApi.list(false)
+      let { data } = await pageApi.list(this.params)
+      this.totalPage = data.total
       this.pageData = data.result
     },
     async handleDeletePage (data) {
@@ -93,6 +113,14 @@ export default {
       } catch (err) {
         throw new Error(err)
       }
+    },
+    handlePageChange () {
+      this.init()
+    },
+    handlePageSizeChange (size) {
+      this.params.page = 1
+      this.params.size = size
+      this.init()
     }
   }
 }

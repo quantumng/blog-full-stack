@@ -2,14 +2,17 @@ const Router = require('koa-router')
 const router = new Router()
 const mongoose = require('mongoose')
 
-router.get('/list', async(ctx) => {
+router.post('/list', async(ctx) => {
   try {
-    const { isDelete } = ctx.request.query
+    const { isDelete, page, size } = ctx.request.body
     const Page = mongoose.model('Page')
-    const pageData = await Page.find({isDelete}).populate('author').populate('category').populate('comment')
+    const total = await Page.countDocuments({isDelete})
+    const skipCount = (page - 1) * size
+    const pageData = await Page.find({isDelete}).sort({'_id': -1}).skip(skipCount).limit(size).populate('author').populate('category').populate('comment')
     ctx.body = {
       status: 200,
       result: pageData,
+      total,
       message: 'ok'
     }
   } catch(err) {

@@ -19,5 +19,11 @@ export default {
   },
   list () {
     return http.get(`${basePath}/list`)
+  },
+  detail (username) {
+    return http.get(`${basePath}?username=${username}`)
+  },
+  updatePassword (params) {
+    return http.post(`${basePath}/updatePassword`, params)
   }
 }

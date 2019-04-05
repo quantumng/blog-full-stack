@@ -9,6 +9,7 @@ import PageList from '@/views/page/page-list'
 import PageEdit from '@/views/page/page-edit'
 import UserList from '@/views/user/user-list'
 import UserEdit from '@/views/user/user-edit'
+import UserPassword from '@/views/user/user-pwd'
 import PageRecycle from '@/views/page/page-recycle'
 import CategoryList from '@/views/category/category-list'
 import CategoryEdit from '@/views/category/category-edit'
@@ -20,6 +21,7 @@ const routes = [
     path: '/',
     name: 'index',
     component: Main,
+    redirect: 'page',
     children: [
       {
         path: 'page',
@@ -45,6 +47,11 @@ const routes = [
         path: 'user/edit',
         name: 'UserEdit',
         component: UserEdit
+      },
+      {
+        path: 'user/password',
+        name: 'UserPassword',
+        component: UserPassword
       },
       {
         path: 'category',
