@@ -30,6 +30,9 @@ const userSchema = new Schema({
     default: 'writer',
     enum: ['passenger', 'writer', 'admin']
   },
+  avatar: {
+    type: String
+  },
   desc: String,
   page: [{
     type: ObjectId,

@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 router.get('/list', async(ctx) => {
   const Category = mongoose.model('Category')
-  let category = await Category.find()
+  let category = await Category.find({})
   ctx.body = {
     status: 200,
     result: category,

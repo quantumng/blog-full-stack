@@ -4,21 +4,20 @@ const mongoose = require('mongoose')
 
 router.post('/list', async(ctx) => {
   try {
-    let currentPage = 0
-    const { id, page } = ctx.request.body
-    console.log(ctx.request.body)
+    const { id, page, size } = ctx.request.body
+    const category = id || null
+    const currentPage = page || 1
+    const pageSize = size || 5
+
     const Page = mongoose.model('Page')
     let pageData = []
     if (id) {
       pageData = await Page.find({isDelete: false, category: id}).sort({'_id': -1}).populate('author').populate('category').populate('comment')
-      // console.log('idpage', pageData)
     } else {
-      if (page) currentPage = page
-      const skipCount = Number(currentPage) * 5
-      console.log(skipCount)
-      pageData = await Page.find({isDelete: false}).sort({'_id': -1}).skip(skipCount).limit(5).populate('author').populate('category').populate('comment')
-      console.log('nopage', pageData)
+      const skipCount = (page - 1) * pageSize
+      pageData = await Page.find({isDelete: false}).sort({'_id': -1}).skip(skipCount).limit(pageSize).populate('author').populate('category').populate('comment')
     }
+    
     ctx.body = {
       status: 200,
       result: pageData,
