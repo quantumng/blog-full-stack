@@ -20,7 +20,14 @@
             </Header>
             <Layout class="main-container">
                 <Sider hide-trigger :style="{background: '#fff'}">
-                    <Menu :active-name="activeName" theme="light" width="auto" :open-names="['page']" @on-select="handleSelectMenu">
+                    <Menu :active-name="activeName" theme="light" width="auto" :open-names="['summary']" @on-select="handleSelectMenu">
+                        <Submenu name="summary">
+                            <template slot="title">
+                                <Icon type="ios-navigate"></Icon>
+                                博客概况
+                            </template>
+                            <MenuItem name="DataOverview">数据一览</MenuItem>
+                        </Submenu>
                         <Submenu name="page">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>

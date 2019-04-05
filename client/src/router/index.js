@@ -14,6 +14,7 @@ import PageRecycle from '@/views/page/page-recycle'
 import CategoryList from '@/views/category/category-list'
 import CategoryEdit from '@/views/category/category-edit'
 import CommentList from '@/views/comment/comment-list'
+import DataOverview from '@/views/summary/data-overview'
 
 Vue.use(Router)
 const routes = [
@@ -21,8 +22,13 @@ const routes = [
     path: '/',
     name: 'index',
     component: Main,
-    redirect: 'page',
+    redirect: 'overview',
     children: [
+      {
+        path: 'overview',
+        name: 'DataOverview',
+        component: DataOverview
+      },
       {
         path: 'page',
         name: 'PageList',

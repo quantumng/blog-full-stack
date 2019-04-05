@@ -19,6 +19,7 @@ const admin = require('./routes/admin')
 const mobile = require('./routes/mobile')
 
 const { connect, initShema } = require('./model')
+
 ;(async () => {
   await connect()
   await initShema()
