@@ -3,7 +3,8 @@
     <Row :gutter="20">
       <Col v-for="(item, index) in charts" :key="index" span="12">
         <h3>{{item.title}}</h3>
-        <Echarts :options="item.option" :defaultStyle="styleConfig"></Echarts>
+        <Echarts v-if="item.option && Object.keys(item.option).length" :options="item.option" :defaultStyle="styleConfig"></Echarts>
+        <div v-else class="no-data">暂无数据</div>
       </Col>
     </Row>
   </div>
@@ -126,5 +127,13 @@ export default {
 .data-overview {
   width: 100%;
   height: 100%;
+}
+.no-data {
+  text-align: center;
+  line-height: 280px;
+  height:280px;
+  width:80%;
+  margin: 10px 0;
+  border: 1px dashed #ddd;
 }
 </style>
