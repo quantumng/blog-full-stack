@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-const basePath = '/admin/page'
+const basePath = '/api/admin/page'
 
 export default {
   list (params) {

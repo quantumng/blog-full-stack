@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-const basePath = '/admin/summary'
+const basePath = '/api/admin/summary'
 
 export default {
   overview () {

@@ -1,8 +1,11 @@
 const Router = require('koa-router')
 const router = new Router()
-const category = require('./blog/category')
-const page = require('./blog/page')
+const admin = require('./admin')
+const mobile = require('./mobile')
+const blog = require('./blog')
 
-router.use('/page', page).use('/category', category)
+router.use('/blog', blog)
+router.use('/admin', admin)
+router.use('/mobile', mobile)
 
 module.exports = router.routes()

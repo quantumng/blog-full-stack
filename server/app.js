@@ -14,10 +14,6 @@ const CONFIG = {
   renew: true,
 }
 
-const index = require('./routes/index')
-const admin = require('./routes/admin')
-const mobile = require('./routes/mobile')
-
 const { connect, initShema } = require('./model')
 
 ;(async () => {
@@ -27,12 +23,11 @@ const { connect, initShema } = require('./model')
 
 const app = new Koa()
 const router = new Router()
+const index = require('./routes/index')
 
 app.keys = ['this is a blog']
 
-router.use('/admin', admin)
-router.use('/mobile', mobile)
-router.use(index)
+router.use('/api', index)
 
 app
   .use(session(CONFIG, app))

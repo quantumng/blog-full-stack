@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-const basePath = '/admin/category'
+const basePath = '/api/admin/category'
 
 export default {
   list () {

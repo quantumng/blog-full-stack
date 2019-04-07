@@ -1,5 +1,5 @@
 import http from '@/lib/http'
-const basePath = '/admin/user'
+const basePath = '/api/admin/user'
 
 export default {
   checkLogin () {
