@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.timeout = 6000
+// axios.defaults.timeout = 6000
 axios.defaults.withCredentials = true
 
 export default {
