@@ -11,6 +11,7 @@
 <script>
 import userApi from '@/api/user'
 import filters from '@/lib/filters'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -41,7 +42,7 @@ export default {
           key: 'role',
           render: (h, {row}) => {
             return <div>
-              <i-select value={row.role} style={'width:80px'} on-on-change={(role) => { this.handleChangeRole(role) }} >
+              <i-select disabled={ !this.isAdmin } value={row.role} style={'width:80px'} on-on-change={(role) => { this.handleChangeRole(role) }} >
                 <i-option value="admin">管理员</i-option>
                 <i-option value="writer">作者</i-option>
                 <i-option value="passenger">路人</i-option>
@@ -91,6 +92,9 @@ export default {
   created () {
     this.getList()
   },
+  computed: {
+    ...mapGetters(['isAdmin'])
+  },
   methods: {
     async getList () {
       try {
@@ -101,7 +105,7 @@ export default {
       }
     },
     handleChangeRole (role) {
-      console.log('role', role)
+      // console.log('role', role)
     }
   }
 }

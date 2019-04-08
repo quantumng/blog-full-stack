@@ -14,8 +14,9 @@
       </FormItem>
       <FormItem>
         <Button class="form-btn" type="primary" @click="handleSubmit('formInline')">登录</Button>
-        <Button class="form-btn" type="primary" @click="() => { this.$router.push({name: 'register'}) }">注册</Button>
+        <Button disabled class="form-btn" type="primary" @click="() => { this.$router.push({name: 'register'}) }">注册</Button>
         <Button class="form-btn" @click="() => { this.goToIndex() }">返回博客</Button>
+        <p>注册功能暂不开放，这里提供一个测试账号，用户名：test,密码：000000</p>
       </FormItem>
     </Form>
   </div>
@@ -55,7 +56,6 @@ export default {
     },
     async login (params) {
       let { data } = await userApi.login(params)
-      console.log(data)
       if (data.status === 200) {
         this.setLoginStatus(true)
         this.setUserInfo(data.result)

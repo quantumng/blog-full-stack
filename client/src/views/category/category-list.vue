@@ -12,6 +12,7 @@
 <script>
 import categoryApi from '@/api/category'
 import filters from '@/lib/filters'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -71,13 +72,19 @@ export default {
   created () {
     this.getList()
   },
+  computed: {
+    ...mapGetters(['isAdmin'])
+  },
   methods: {
     async getList () {
       let { data } = await categoryApi.list()
       this.categoryList = data.result
     },
     async deleteCategory (row) {
-      console.log('delete', row)
+      if (!this.isAdmin) {
+        this.$Message.warning('非站长不能删除')
+        return
+      }
       try {
         await categoryApi.delete(row['_id'])
         this.getList()
@@ -87,7 +94,6 @@ export default {
       }
     },
     editCategory (row) {
-      console.log('edit', row)
       this.$router.replace({name: 'CategoryEdit', query: {id: row._id}})
     }
   }

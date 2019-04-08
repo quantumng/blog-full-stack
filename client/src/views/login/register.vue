@@ -24,7 +24,7 @@
         <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formValidate')">注册</Button>
+        <Button disabled type="primary" @click="handleSubmit('formValidate')">注册</Button>
         <Button @click="pushToBlog" style="margin-left: 8px">返回</Button>
       </FormItem>
     </Form>

@@ -12,7 +12,6 @@ export default {
     return http.post(`${basePath}/add`, params)
   },
   update (params) {
-    console.log('params', params)
     return http.post(`${basePath}/update`, params)
   },
   delete (id) {

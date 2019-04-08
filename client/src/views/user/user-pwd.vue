@@ -11,7 +11,7 @@
         <Input type="password" v-model="formValidate.confirmPassword" placeholder="请输入确认密码"></Input>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formValidate')">修改</Button>
+        <Button :disabled="!isAdmin" type="primary" @click="handleSubmit('formValidate')">修改</Button>
       </FormItem>
     </Form>
   </div>
@@ -67,7 +67,7 @@ export default {
   created () {
   },
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo', 'isAdmin'])
   },
   methods: {
     handleSubmit (name) {

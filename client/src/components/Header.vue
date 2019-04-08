@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     handleSelectMenu () {
-      console.log('select')
+      // console.log('select')
     }
   }
 }

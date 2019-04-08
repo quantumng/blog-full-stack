@@ -37,7 +37,6 @@ router.post('/list', async(ctx) => {
 router.get('/', async(ctx) => {
   try {
     const { id } = ctx.request.query
-    // console.log(id)
     const Page = mongoose.model('Page')
     const pageData = await Page.findOne({_id: id}).populate('author').populate('category').populate('comment')
     ctx.body = {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import Router from 'vue-router'
-import userApi from '@/api/user'
+// import userApi from '@/api/user'
 import Main from '@/views/main'
 import Login from '../views/login/login.vue'
 import Register from '../views/login/register.vue'
@@ -100,10 +100,8 @@ router.beforeEach(async (to, from, next) => {
   }
   if (!isLogin && !authVoid) {
     try {
-      await userApi.checkLogin()
-      store.dispatch('setLoginStatus', true)
+      await store.dispatch('checkLogin')
     } catch (err) {
-      store.dispatch('setLoginStatus', false)
       next({name: 'login', query: { url: from.name }})
       return
     }

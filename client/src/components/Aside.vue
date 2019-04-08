@@ -46,10 +46,10 @@ export default {
   },
   methods: {
     handleOpen () {
-      console.log('open')
+      // console.log('open')
     },
     handleClose () {
-      console.log('close')
+      // console.log('close')
     },
     handleSelectMenu (index, indexList) {
       this.$router.push({name: index})

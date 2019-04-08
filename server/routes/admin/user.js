@@ -4,10 +4,16 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 
 router.get('/checkLogin', async (ctx, next) => {
-  const username = ctx.cookies.get('username')
-  console.log('cookie', username)
-  if (username) {
-    ctx.body = true
+  const cookies = ctx.cookies.get('username')
+  console.log('cookies', cookies)
+  if (cookies) {
+    const User = mongoose.model('User')
+    const { username, email, role, _id, gender, desc, nickname } = await User.findOne({ 'username': cookies }).exec()
+    ctx.body = {
+      status: 200,
+      result: { username, email, role, _id, gender, desc, nickname },
+      message: '登录成功'
+    }
   } else {
     ctx.status = 401
     ctx.body = {
@@ -108,7 +114,6 @@ router.get('/list', async (ctx) => {
 router.get('/', async (ctx, next) => {
   try {
     const { username } = ctx.request.query
-    console.log('username', username)
     const User = mongoose.model('User')
     const data = await User.findOne({username}).select({ password: 0 })
     ctx.body = {

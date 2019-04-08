@@ -29,7 +29,6 @@ router.post('/list', async(ctx) => {
 router.get('/', async(ctx) => {
   try {
     const { id } = ctx.request.query
-    console.log(id)
     const Page = mongoose.model('Page')
     const pageData = await Page.findOne({_id: id})
     ctx.body = {
@@ -96,7 +95,6 @@ router.post('/delete', async (ctx, next) => {
     const { id } = ctx.request.query
     const page = mongoose.model('Page')
     let data = await page.findById(id)
-    console.log('deletedata', data)
     if (data.isDelete) {
       await page.findByIdAndDelete(id)
     } else {

@@ -20,6 +20,8 @@
 <script>
 import pageApi from '@/api/page'
 import filters from '@/lib/filters'
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
@@ -97,6 +99,7 @@ export default {
     this.init()
   },
   computed: {
+    ...mapGetters(['isAdmin']),
     showPagination () {
       return this.totalPage > this.params.size
     }
@@ -108,6 +111,10 @@ export default {
       this.pageData = data.result
     },
     async handleDeletePage (data) {
+      if (!this.isAdmin) {
+        this.$Message.warning('非站长不能删除')
+        return
+      }
       try {
         await pageApi.delete(data._id)
         await this.init()

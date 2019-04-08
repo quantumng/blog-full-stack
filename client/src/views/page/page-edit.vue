@@ -94,7 +94,6 @@ export default {
     async getPageData (id) {
       try {
         let { data } = await pageApi.details(id)
-        console.log(data)
         const { result: { _id, ...pageData } } = data
         this.formValidate = { id: _id, ...pageData }
         this.$nextTick(() => {

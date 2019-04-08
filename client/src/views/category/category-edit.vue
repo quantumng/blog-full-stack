@@ -54,7 +54,6 @@ export default {
     async getCategoryInfo (id) {
       try {
         const { data } = await categoryApi.details(id)
-        console.log('result', data.result)
         this.formValidate = data.result
       } catch (err) {
         throw err
@@ -63,8 +62,6 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.$route.query)
-          console.log(this.formValidate)
           this.queryData(this.formValidate)
         } else {
           this.$Message.error('Fail!')
@@ -73,7 +70,6 @@ export default {
     },
     async queryData (params) {
       try {
-        console.log(params)
         if (params['_id']) {
           await categoryApi.update(params)
         } else {

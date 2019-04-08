@@ -9,7 +9,6 @@ router.get('/overview', async(ctx) => {
   let category = await Category.find({}).select('name pages _id')
   let user = await User.find({}).select('nickname username _id')
   let page = await Page.find({}).select('createAt comment title _id author category')
-  // console.log(category)
   ctx.body = {
     status: 200,
     result: { page, category, user },

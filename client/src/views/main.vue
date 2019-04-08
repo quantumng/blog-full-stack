@@ -94,9 +94,6 @@ export default {
       return this.$route.name || 'PageList'
     }
   },
-  mounted () {
-    console.log(this.$route)
-  },
   methods: {
     ...mapActions(['setLoginStatus', 'setUserInfo']),
     handleDropClick (name) {

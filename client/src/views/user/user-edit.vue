@@ -63,9 +63,13 @@ export default {
   methods: {
     ...mapActions(['setUserInfo']),
     async getUserInfo () {
-      let { data } = await userApi.detail(this.userInfo.username)
-      console.log('data', data)
-      const { _id, avatar, username, nickname, email, gender, desc } = data.result
+      let res = {}
+      if (this.userInfo && this.userInfo.username) {
+        res = await userApi.detail(this.userInfo.username)
+      } else {
+        res = await userApi.checkLogin()
+      }
+      const { _id, avatar, username, nickname, email, gender, desc } = res.data.result
       this.formValidate = {
         id: _id,
         avatar,
