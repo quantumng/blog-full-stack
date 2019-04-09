@@ -1,8 +1,18 @@
 const Koa = require('koa')
+const app = new Koa()
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const session = require('koa-session')
+const render = require('koa-art-template')
 
+// 数据库相关
+const { connect, initShema } = require('./model')
+;(async () => {
+  await connect()
+  await initShema()
+})()
+
+// session cookie配置
 const CONFIG = {
   key: 'koa:sess',
   maxAge: 3600000,
@@ -13,22 +23,22 @@ const CONFIG = {
   rolling: false,
   renew: true,
 }
-
-const { connect, initShema } = require('./model')
-
-;(async () => {
-  await connect()
-  await initShema()
-})()
-
-const app = new Koa()
-const router = new Router()
-const index = require('./routes/index')
-
 app.keys = ['this is a blog']
 
-router.use('/api', index)
+// 模板引擎
+render(app, {
+  root: path.join(__dirname, 'view'),
+  extname: '.art',
+  debug: process.env.NODE_ENV !== 'production'
+})
 
+// 路由
+const router = new Router()
+const index = require('./routes/index')
+const api = require('./routes/api')
+router.use('/api', api).use(index)
+
+// 中间件
 app
   .use(session(CONFIG, app))
   .use(bodyParser())
