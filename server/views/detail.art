@@ -1,0 +1,25 @@
+{{extend './index.art'}}
+  {{block 'title'}}
+    <title>{{page.title}} | degebug.com 博客</title>
+  {{/block}}
+  {{block 'link'}}
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/detail.css">
+  {{/block}}
+  {{block 'container'}}
+    <div class="blog-page">
+      <h2 class="blog-page-title">{{page.title}}</h2>
+      <div class="blog-page-info">
+        {{set author = page.author.nickname || page.author.username}}
+          <span class="blog-page-author">作者：{{author}}</span>
+          <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          {{set category = page.category.name || '未分类'}}
+          {{set url = '/category/' + page.category.alias + '.html'}}
+          <span class='blog-page-comment'>分类：<a href="{{url}}">{{category}}</a></span>
+      </div>
+      <div class="blog-page-content">
+        {{@ page.content}}
+      </div>
+    </div>
+    <aside class="blog-top" id="blogTop">Top</aside>
+  {{/block}}

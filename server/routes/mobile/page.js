@@ -12,9 +12,9 @@ router.post('/list', async(ctx) => {
     const Page = mongoose.model('Page')
     let pageData = []
     if (id) {
-      pageData = await Page.find({isDelete: false, category: id}).sort({'_id': -1}).populate('author').populate('category').populate('comment')
+      pageData = await Page.find({isDelete: false, category: category}).sort({'_id': -1}).populate('author').populate('category').populate('comment')
     } else {
-      const skipCount = (page - 1) * pageSize
+      const skipCount = (currentPage - 1) * pageSize
       pageData = await Page.find({isDelete: false}).sort({'_id': -1}).skip(skipCount).limit(pageSize).populate('author').populate('category').populate('comment')
     }
     

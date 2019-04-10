@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="degebug.com是一个前端开发者的博客，在这里，你将...等一下，我de个bug先！">
+  <meta name="keywords" content="degebug.com,博客,技术,程序员,debug,前端,日记,写作,阅读,原创,吴晓权">
+  <link rel="shortcut icon" type="image/x-icon" href="/img/blog-favicon.ico">
+  {{block 'title'}}
+    <title>degebug.com 博客</title>
+  {{/block}}
+  <link href="https://cdn.bootcss.com/normalize/8.0.1/normalize.css" rel="stylesheet">
+  {{block 'link'}}
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/page-item.css">
+  {{/block}}
+</head>
+<body>
+  <header class="blog-header">
+    <h1 class="blog-logo"><a href="/">degebug.com 博客</a></h1>
+    <nav class="blog-nav">
+      <a class="blog-nav-item" href="/">首页</a>
+      <a class="blog-nav-item" href="//www.wuxiaoquan.com" target="_blank">关于我</a>
+      <a class="blog-nav-item" href="//admin.degebug.com" target="_blank">博客管理</a>
+    </nav>
+  </header>
+  <div class="blog-container">
+    {{block 'container'}}
+      <section class="blog-category">
+        <h2 class="blog-category-title">分类目录</h2>
+        <ul class="blog-category-list">
+          {{each category}}
+          {{set url = '/category/' + $value.alias + '.html'}}
+            <li><a href="{{url}}">{{$value.name}}</a></li>
+          {{/each}}
+        </ul>
+      </section>
+      <section class="blog-content">
+        {{block 'content'}}
+          <ul class="blog-content-wrappper" id="blogContent">
+              {{each pageData}}
+              {{set url = '/page/' + $value.alias + '.html'}}
+                <li class="blog-content-item">
+                  <h3 class="blog-content-title"><a href="{{url}}">{{$value.title}}</a></h3>
+                  <div class="blog-content-desc">
+                    <p>{{$value.desc}}</p>
+                    <a class="blog-content-more" href="{{url}}">阅读更多</a>
+                  </div>
+                  <div class="blog-content-info">
+                    {{set author = $value.author.nickname || $value.author.username}}
+                    <span class="blog-content-author">作者：{{author}}</span>
+                    <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                    {{set category = $value.category.name || '未分类'}}
+                    <span class="blog-content-comment">分类：{{category}}</span>
+                  </div>
+                </li>
+              {{/each}}
+            </ul>
+        {{/block}}
+        {{block 'more'}}
+        <div class="blog-more" id="blogMore" data-page="2" data-size="5">更多文章</div>
+        {{/block}}
+      </section>
+      <aside class="blog-top" id="blogTop">Top</aside>
+    {{/block}}
+  </div>
+  <footer class="blog-footer">
+    <p>Copyright&copy;2018-2019 吴晓权 版权所有</p>
+    <p><a target="_blank" rel="noopener noreferrer" href="http://www.miitbeian.gov.cn">粤ICP备18084360号-1</a></p>
+  </footer>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+</html>

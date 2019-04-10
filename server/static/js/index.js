@@ -1,15 +1,15 @@
-(function() {
+window.onload = function () {
   toggleTop()
   backToTop()
   getMore()
-})();
+}
 
 function toggleTop () {
   $(window).scroll(function () {
     if ($(this).scrollTop() > 200) {
-      console.log('666')
+      $('#blogTop').show()
     } else {
-      console.log('888')
+      $('#blogTop').hide()
     }
   })
 }
@@ -24,17 +24,27 @@ function getMore () {
   $('#blogMore').click(function () {
     var page = $(this).data('page')
     var size = $(this).data('size')
-    $.ajax({
-      url: '',
-      type: 'post',
-      data: { page: page, size: size },
-      success: function (res) {
-        console.log(res)
-        $('#blogMore').data('page', page++)
-      },
-      error: function () {
-        console.log('error')
-      }
-    })
+    var isAll = $(this).data('isAll')
+    if (!isAll) {
+      console.log(page, size)
+      $.ajax({
+        url: `/list`,
+        type: 'post',
+        data: { page: page, size: size },
+        success: function (res) {
+          console.log(res)
+          if (res) {
+            $('#blogMore').data('page', ++page)
+            $('#blogContent').append(res)
+          } else {
+            $('#blogMore').html('没有更多文章了')
+            $('#blogMore').data('isAll', true)
+          }
+        },
+        error: function () {
+          console.log('error')
+        }
+      })
+    }
   })
 }

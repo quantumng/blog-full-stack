@@ -1,0 +1,22 @@
+{{extend './index.art'}}
+{{block 'content'}}
+<ul class="blog-content-wrappper" id="blogContent">
+  {{each pageData}}
+  {{set url = '/page/' + $value.alias + '.html'}}
+    <li class="blog-content-item">
+      <h3 class="blog-content-title"><a href="{{url}}">{{$value.title}}</a></h3>
+      <div class="blog-content-desc">
+        <p>{{$value.desc}}</p>
+        <a class="blog-content-more" href="{{url}}">阅读更多</a>
+      </div>
+      <div class="blog-content-info">
+        <span class="blog-content-author">作者：{{$value.author.nickname}}</span>
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <span class="blog-content-comment">评论数：{{$value.comment.length}}</span>
+      </div>
+    </li>
+  {{/each}}
+</ul>
+{{/block}}
+{{block 'more'}}
+{{/block}}

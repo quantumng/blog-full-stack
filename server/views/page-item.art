@@ -1,0 +1,17 @@
+{{each pageData}}
+{{set url = '/page/' + $value.alias + '.html'}}
+  <li class="blog-content-item">
+    <h3 class="blog-content-title"><a href="{{url}}">{{$value.title}}</a></h3>
+    <div class="blog-content-desc">
+      <p>{{$value.desc}}</p>
+      <a class="blog-content-more" href="{{url}}">阅读更多</a>
+    </div>
+    <div class="blog-content-info">
+      {{set author = $value.author.nickname || $value.author.username}}
+      <span class="blog-content-author">作者：{{author}}</span>
+      <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      {{set category = $value.category.name || '未分类'}}
+      <span class="blog-content-comment">分类：{{category}}</span>
+    </div>
+  </li>
+{{/each}}

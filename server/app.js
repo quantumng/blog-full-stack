@@ -4,6 +4,8 @@ const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const session = require('koa-session')
 const render = require('koa-art-template')
+const static = require('koa-static')
+const path = require('path')
 
 // 数据库相关
 const { connect, initShema } = require('./model')
@@ -27,7 +29,7 @@ app.keys = ['this is a blog']
 
 // 模板引擎
 render(app, {
-  root: path.join(__dirname, 'view'),
+  root: path.join(__dirname, 'views'),
   extname: '.art',
   debug: process.env.NODE_ENV !== 'production'
 })
@@ -40,6 +42,7 @@ router.use('/api', api).use(index)
 
 // 中间件
 app
+  .use(static(path.join(__dirname, 'static')))
   .use(session(CONFIG, app))
   .use(bodyParser())
   .use(router.routes())

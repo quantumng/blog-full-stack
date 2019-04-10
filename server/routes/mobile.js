@@ -1,8 +1,8 @@
 const Router = require('koa-router')
 const router = new Router()
+const category = require('./mobile/category')
+const page = require('./mobile/page')
 
-router.get('/', async (ctx, next) => {
-  ctx.body = '移动接口'
-})
+router.use('/page', page).use('/category', category)
 
 module.exports = router.routes()
