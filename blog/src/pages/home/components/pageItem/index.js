@@ -10,20 +10,18 @@ import {
 
 function Content (props) {
   const { data } = props
-  const { title, desc, author, category, _id } = data
+  const { title, desc, author, category } = data
   const cate = category.name
-  const cateId = category['_id']
   const authorName = author.nickname
   return <div>
-    <Link className={'title'} target="_blank" to={`/details/${_id}`}>{title}</Link>
+    <h2 className={'title'}>{title}</h2>
     <div className={'content'}>
     {desc}
-      <Link to={`/details/${_id}`} target="_blank" className={'read-more'}>阅读更多</Link>
     </div>
     <div className={'info'}>
       <span className={'author'}>作者：{authorName}</span>
       <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-      <span className={'comment'}>分类：<Link to={{ pathname: `/category/${cateId}` }}>{cate}</Link></span>
+      <span className={'comment'}>分类：{cate}</span>
     </div>
   </div>
 }
@@ -49,7 +47,9 @@ class Page extends PureComponent {
       return <div>
         {pageList.map(item => {
         return <PageContent key={item._id}>
-          <Content data={item} />
+          <Link to={`/details/${item._id}`}>
+            <Content data={item} />
+          </Link>
         </PageContent>
       })}
         {hasMorePage && !(params && params.id) ? <LoadMore onClick={() => {getMoreList(currentPage)}}>加载更多...</LoadMore> : <LoadMore>没有更多文章了</LoadMore>}

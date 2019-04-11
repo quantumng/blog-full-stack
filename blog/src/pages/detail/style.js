@@ -5,12 +5,12 @@ export const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: ${v('30px')};
-  padding-top: ${v('78px')};
+  padding-top: ${v('110px')};
   box-sizing: border-box;
 `
 export const NoData = styled.div`
   width: 100%;
-  border: ${v('1px')} solid #ddd;
+  border: ${v('2px')} solid #ddd;
   border-radius: ${v('4px')};
   padding: ${v('20px')};
   margin: ${v('20px')} auto;
@@ -19,7 +19,7 @@ export const NoData = styled.div`
 `
 
 export const PageContent = styled.div`
-  border: ${v('1px')} solid #ddd;
+  border: ${v('2px')} solid #ddd;
   border-radius: ${v('8px')};
   padding: ${v('30px')};
   margin: ${v('20px')} auto;
@@ -46,7 +46,7 @@ export const PageContent = styled.div`
     font-size: ${v('12px')};
     text-align: center;
     padding: ${v('10px')};
-    border-bottom: ${v('1px')} solid #ddd;
+    border-bottom: ${v('2px')} solid #ddd;
     height: ${v('30px')};
     line-height: ${v('30px')};
   }

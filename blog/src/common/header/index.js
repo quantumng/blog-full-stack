@@ -28,7 +28,7 @@ class Header extends PureComponent {
     <HeaderWrapper onDoubleClick={ () => { this.goToTop() }}>
       <Link to="/"><Logo /></Link>
       <CSSTransition in={showMenu} timeout={500} classNames="rotate">
-        <MenuBtn onClick={() => { changeMenuShow(showMenu) }}>个</MenuBtn>
+        <MenuBtn onClick={() => { changeMenuShow(showMenu) }}>M</MenuBtn>
       </CSSTransition>
       { showMenu ? <Menu>
         { categoryList && categoryList.length ? categoryList.map(item => {
@@ -38,7 +38,7 @@ class Header extends PureComponent {
                 to={{ pathname: `/category/${item._id}` }}
                 activeClassName="selected"
                 onClick={() => {changeMenuShow(showMenu)}}>
-                {`${item.name}(${item.pages.length})`}
+                {`${item.name}`}
                 </NavLink>
             </MenuItem>
           )
