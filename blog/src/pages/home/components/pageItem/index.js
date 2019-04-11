@@ -10,8 +10,9 @@ import {
 
 function Content (props) {
   const { data } = props
-  const { title, desc, author, comment, _id } = data
-  const commentCount = comment.length
+  const { title, desc, author, category, _id } = data
+  const cate = category.name
+  const cateId = category['_id']
   const authorName = author.nickname
   return <div>
     <Link className={'title'} target="_blank" to={`/details/${_id}`}>{title}</Link>
@@ -22,7 +23,7 @@ function Content (props) {
     <div className={'info'}>
       <span className={'author'}>作者：{authorName}</span>
       <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-      <span className={'comment'}>评论：{commentCount}</span>
+      <span className={'comment'}>分类：<Link to={{ pathname: `/category/${cateId}` }}>{cate}</Link></span>
     </div>
   </div>
 }

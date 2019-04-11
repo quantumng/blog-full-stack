@@ -1,5 +1,5 @@
 import http from '../lib/http';
-const baseUrl = '/api/blog/page'
+const baseUrl = '/api/mobile/page'
 
 export default {
   list (params) {

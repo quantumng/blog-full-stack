@@ -1,57 +1,61 @@
 import styled from 'styled-components';
+import {v} from '../../../../lib/styleUtils';
 
 export const PageContent = styled.div`
   width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 20px;
-  margin: 20px auto;
+  border: ${v('1px')} solid #ddd;
+  border-radius: ${v('4px')};
+  padding: ${v('20px')};
+  margin: ${v('20px')} auto;
   box-sizing: border-box;
   .title {
     display: block;
     width: 100%;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: ${v('10px')};
+    border-bottom: ${v('1px')} solid #ddd;
     color: #000;
     font-weight: 600;
     box-sizing: border-box;
   }
   .content {
-    line-height: 30px;
-    margin: 20px 0;
-    padding: 10px;
-    text-index: 2em;
+    margin: ${v('20px')} 0;
+    padding: ${v('10px')};
+    text-indent: 2em;
     .read-more {
       text-decoration: underline;
       color: #666;
-      margin-left: 10px;
+      margin-left: ${v('10px')};
     }
   }
   .info {
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    height: 30px;
-    line-height: 30px;
+    padding: ${v('10px')};
+    padding-top: ${v('20px')}
+    border-top: ${v('1px')} solid #ddd;
+    height: ${v('30px')};
+    line-height: ${v('30px')};
+    a {
+      color: #000;
+    }
   }
 `
 
   export const NoPage = styled.div`
     width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 20px;
-    margin: 20px auto;
+    border: ${v('1px')} solid #ddd;
+    border-radius: ${v('4px')};
+    padding: ${v('20px')};
+    margin: ${v('20px')} auto;
     box-sizing: border-box;
     text-align: center;
 `
 
 export const LoadMore = styled.div`
 	width: 100%;
-	height: 40px;
-	line-height: 40px;
-	margin: 30px auto;
+  height: ${v('40px')};
+  line-height: ${v('40px')};
+  margin: ${v('30px')} auto;
   text-align:center;
-  border: 1px solid #ddd;
-	border-radius: 20px;
-	cursor: pointer;
+  border: ${v('1px')} solid #ddd;
+	border-radius: ${v('20px')};
+  cursor: pointer;
 `

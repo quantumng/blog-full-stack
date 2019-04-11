@@ -11,12 +11,8 @@ const defaultState = fromJS({
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case actionTypes.INIT_CATEGORY_LIST:
-      return state.set('categoryList', action.list)
     case actionTypes.INIT_PAGE_LIST:
       return state.set('pageList', action.list)
-    case actionTypes.TOGGLE_SCROLL_TOP:
-      return state.set('showScroll', action.showScroll)
     case actionTypes.ADD_PAGE_LIST:
       if (!action.list.length) {
         return state.set('hasMorePage', false)
