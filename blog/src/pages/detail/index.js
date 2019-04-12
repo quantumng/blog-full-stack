@@ -28,9 +28,7 @@ class Page extends PureComponent {
                       pathname: `/category/${categoryId}`
                     }}>{category}</Link></span>
         </div>
-        <div className={'content'}>
-        <div dangerouslySetInnerHTML={createSetup(content)}></div>
-        </div>
+        <div className={'content'} dangerouslySetInnerHTML={createSetup(content)}></div>
       </PageContent>
     </PageWrapper>
   }

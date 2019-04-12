@@ -32,11 +32,8 @@ export const PageContent = styled.div`
     line-height: ${v('36px')};
     margin: ${v('20px')} 0;
     padding: ${v('20px')};
-    img {
+    img, iframe {
       max-width: 95%!important;
-    }
-    p {
-      text-indent: 2em;
     }
     .read-more {
       margin-left: ${v('10px')};
