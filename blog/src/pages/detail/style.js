@@ -33,13 +33,16 @@ export const PageContent = styled.div`
     margin: ${v('20px')} 0;
     padding: ${v('20px')};
     img {
-      max-width: 95%;
+      max-width: 95%!important;
     }
     p {
       text-indent: 2em;
     }
     .read-more {
       margin-left: ${v('10px')};
+    }
+    code {
+      white-space: pre-line;
     }
   }
   .info {

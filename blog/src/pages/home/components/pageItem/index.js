@@ -29,8 +29,8 @@ function Content (props) {
 class Page extends PureComponent {
   componentDidMount () {
     const { match, getPageList } = this.props
-    const { params } = match
-    getPageList(params)
+      const { params } = match
+      getPageList(params)
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.id !== this.props.match.params.id) {
@@ -52,7 +52,7 @@ class Page extends PureComponent {
           </Link>
         </PageContent>
       })}
-        {hasMorePage && !(params && params.id) ? <LoadMore onClick={() => {getMoreList(currentPage)}}>加载更多...</LoadMore> : <LoadMore>没有更多文章了</LoadMore>}
+      { params && params.id ? null : (hasMorePage ? <LoadMore onClick={() => {getMoreList(currentPage)}}>加载更多...</LoadMore> : <LoadMore>没有更多文章了</LoadMore>)}
       </div>
     } else {
       return <NoPage>暂无文章</NoPage>
