@@ -35,10 +35,9 @@ export const PageContent = styled.div`
     img, iframe {
       max-width: 95%!important;
     }
-    .read-more {
-      margin-left: ${v('10px')};
-    }
     code {
+      word-break: break-all;
+      word-wrap: break-word;
       white-space: pre-line;
     }
   }

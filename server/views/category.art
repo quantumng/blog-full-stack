@@ -10,9 +10,11 @@
         <a class="blog-content-more" href="{{url}}">阅读更多</a>
       </div>
       <div class="blog-content-info">
-        <span class="blog-content-author">作者：{{$value.author.nickname}}</span>
+        {{set author = $value.author.nickname || $value.author.username}}
+        <span class="blog-content-author">作者：{{author}}</span>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <span class="blog-content-comment">评论数：{{$value.comment.length}}</span>
+        {{set category = $value.category.name || '未分类'}}
+        <span class="blog-content-comment">分类：{{category}}</span>
       </div>
     </li>
   {{/each}}
